@@ -1,69 +1,63 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 android {
-    namespace 'ttlock.demo'
-    compileSdkVersion 34
+    namespace 'com.wizsmith.technicianapp'
+    compileSdk 34
+
     defaultConfig {
-        applicationId "ttlock.demo"
-        minSdkVersion 23
-        targetSdkVersion 34
+        applicationId "com.wizsmith.technicianapp"
+        minSdk 23
+        targetSdk 34
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
-    buildTypes {
-        debug {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
-        }
-        release {
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        dataBinding true
-        viewBinding true
-        buildConfig true
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-        // 防止在发布的时候出现因MissingTranslation导致Build Failed!
-        disable 'MissingTranslation'
+
+    kotlinOptions {
+        jvmTarget = '17'
     }
-    //添加本地仓库，并把libs目录作为仓库地址
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-//    testImplementation 'junit:junit:4.12'
-//    implementation(name: 'ttlock-release-3.0.7', ext: 'aar')
-    implementation 'no.nordicsemi.android:dfu:2.5.0'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    implementation 'com.google.code.gson:gson:2.6.2'
-    implementation 'com.ttlock:ttlock:3.5.4'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-}
+    // Kotlin & Core
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
 
+    // TTLock SDK - local AAR
+    implementation files('libs/TTLockSDK.aar') // Place the TTLock AAR in app/libs/
+
+    // Optional: Kotlin coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+
+    // Optional: For JSON and API handling
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.6'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
