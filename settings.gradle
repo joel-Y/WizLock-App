@@ -1,0 +1,3 @@
+rootProject.name = "WizLock-Tech-Admin"
+include(":app")
+include(":admin")

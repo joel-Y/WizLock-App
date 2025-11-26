@@ -1,0 +1,2 @@
+-keep class com.ttlock.** { *; }
+-keepclassmembers class kotlin.Metadata { *; }
